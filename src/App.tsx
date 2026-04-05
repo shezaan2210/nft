@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Mail, ChevronRight, Volume2, VolumeX } from 'lucide-react';
 import { FaTwitter, FaGithub } from 'react-icons/fa';
 import Lenis from 'lenis';

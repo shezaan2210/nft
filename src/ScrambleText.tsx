@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const chars = '!<>-_\\/[]{}—=+*^?#________';
 
@@ -15,7 +15,7 @@ const ScrambleText = ({ text, delay = 0 }: { text: string; delay?: number }) => 
         setDisplayText(
           text
             .split('')
-            .map((letter, index) => {
+            .map((_letter, index) => {
               if (index < iteration) return text[index];
               return chars[Math.floor(Math.random() * chars.length)];
             })
