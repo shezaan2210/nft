@@ -9,6 +9,7 @@ import Preloader from './Preloader';
 import Magnetic from './Magnetic';
 import ScrambleText from './ScrambleText';
 import TiltCard from './TiltCard';
+// import LiquidVideo from './LiquidVideo';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,7 +75,7 @@ const App = () => {
                 <Magnetic key={link}><a href="#" className="font-grotesk text-[13px] uppercase hover:text-neon transition-colors cursor-none px-2">{link}</a></Magnetic>
               ))}
             </nav>
-            <div className="hidden lg:flex flex-col gap-4 absolute top-8 right-12 z-20">
+            <div className="hidden lg:flex flex-col gap-4 absolute top-32 right-12 z-20">
               <Magnetic>
                 <button onClick={toggleAudio} className="liquid-glass w-[56px] h-[56px] rounded-[1rem] flex items-center justify-center hover:bg-white/10 transition-colors mb-4 cursor-none group">
                   {isAudioMuted ? <VolumeX size={20} className="text-cream/50 group-hover:text-neon transition-colors" /> : <Volume2 size={20} className="text-neon animate-pulse" />}
@@ -156,9 +157,9 @@ const App = () => {
               <motion.div key={idx} initial={{ y: 100, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: idx * 0.2, ease: "easeOut" }}>
                 {/* 3D TILT WRAPPER */}
                 <TiltCard className="liquid-glass rounded-[32px] p-[18px] hover:bg-white/10 transition-colors duration-300 relative z-20">
-                  <div className="relative w-full pb-[100%] rounded-[24px] overflow-hidden mb-[18px]">
-                    <video src={nft.url} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" />
-                  </div>
+                <div className="relative w-full pb-[100%] rounded-[24px] overflow-hidden mb-[18px]">
+                  <video src={nft.url} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" />
+                </div>
                   <div className="liquid-glass rounded-[20px] px-5 py-4 flex justify-between items-center">
                     <div className="flex flex-col"><span className="text-[11px] text-cream/70 uppercase tracking-wider">Rarity Score:</span><span className="text-[16px] font-bold mt-1">{nft.score}</span></div>
                     <Magnetic><button className="w-[48px] h-[48px] rounded-full bg-gradient-to-br from-[#b724ff] to-[#7c3aed] flex items-center justify-center shadow-lg shadow-purple-500/50 hover:scale-110 transition-transform cursor-none"><ChevronRight className="text-white" size={24} /></button></Magnetic>

@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 const chars = '!<>-_\\/[]{}—=+*^?#________';
 
 const ScrambleText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
-  const [displayText, setDisplayText] = useState('');
-
+     const [displayText, setDisplayText] = useState('');
+   
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    let interval: ReturnType<typeof setInterval>;
+ let interval: ReturnType<typeof setInterval>;
+ let timeout: ReturnType<typeof setTimeout>;
 
     timeout = setTimeout(() => {
       let iteration = 0;
