@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Mail, ChevronRight } from 'lucide-react';
 import { FaTwitter, FaGithub } from 'react-icons/fa';
+import Lenis from 'lenis';
+import { motion } from 'framer-motion';
+import CustomCursor from './CustomCursor';
 
 const App = () => {
+  // Initialize Lenis Smooth Scroll
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
+  // Shared Social Icons Array
+  const socialIcons = [Mail, FaTwitter, FaGithub];
+
   return (
-    <div className="relative w-full bg-background min-h-screen text-cream font-mono">
+    // Added cursor-none to hide default pointer
+    <div className="relative w-full bg-background min-h-screen text-cream font-mono cursor-none">
+      
+      {/* Framer Motion Custom Cursor */}
+      <CustomCursor />
+      
       {/* Global Texture Overlay */}
       <div className="fixed inset-0 z-50 pointer-events-none mix-blend-lighten opacity-60 texture-overlay" />
 
       {/* SECTION 1: HERO */}
       <section className="relative w-full min-h-screen rounded-b-[32px] overflow-hidden flex flex-col">
-        {/* Background Video */}
         <video 
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_045634_e1c98c76-1265-4f5c-882a-4276f2080894.mp4" 
           autoPlay loop muted playsInline
@@ -18,11 +41,9 @@ const App = () => {
         />
         
         <div className="relative z-10 w-full max-w-orbis mx-auto px-6 sm:px-12 pt-8 flex-1 flex flex-col pb-20">
-          {/* Header */}
           <header className="flex justify-between items-start lg:items-center">
             <div className="font-grotesk text-[16px] uppercase tracking-wider">Orbis.Nft</div>
             
-            {/* Desktop Nav */}
             <nav className="hidden lg:flex liquid-glass rounded-[28px] px-[52px] py-[24px] gap-8">
               {['Homepage', 'Gallery', 'Buy NFT', 'FAQ', 'Contact'].map((link) => (
                 <a key={link} href="#" className="font-grotesk text-[13px] uppercase hover:text-neon transition-colors">
@@ -31,9 +52,8 @@ const App = () => {
               ))}
             </nav>
             
-            {/* Desktop Socials */}
             <div className="hidden lg:flex flex-col gap-4 absolute top-8 right-12 z-20">
-              {[Mail, FaTwitter, FaGithub].map((Icon, idx) => (
+              {socialIcons.map((Icon, idx) => (
                 <button key={idx} className="liquid-glass w-[56px] h-[56px] rounded-[1rem] flex items-center justify-center hover:bg-white/10 transition-colors">
                   <Icon size={20} className="text-cream" />
                 </button>
@@ -41,20 +61,35 @@ const App = () => {
             </div>
           </header>
 
-          {/* Hero Content */}
           <div className="mt-auto relative max-w-[780px] lg:ml-32">
-            <h1 className="font-grotesk uppercase text-[40px] sm:text-[60px] md:text-[75px] lg:text-[90px] leading-[1.05] md:leading-[1]">
-              Beyond earth <br />
-              and ( its ) familiar boundaries
+            <h1 className="font-grotesk uppercase text-[40px] sm:text-[60px] md:text-[75px] lg:text-[90px] leading-[1.05] md:leading-[1] overflow-hidden">
+              <motion.div
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              >
+                Beyond earth
+              </motion.div>
+              <motion.div
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+              >
+                and ( its ) familiar boundaries
+              </motion.div>
             </h1>
-            <span className="absolute -top-4 sm:top-0 right-0 lg:-right-16 translate-x-[10%] sm:translate-x-[20%] -translate-y-1/2 -rotate-1 font-condiment text-neon text-[24px] sm:text-[36px] lg:text-[48px] mix-blend-exclusion opacity-90 normal-case">
+            <motion.span 
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              animate={{ opacity: 0.9, scale: 1, rotate: -1 }}
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
+              className="absolute -top-4 sm:top-0 right-0 lg:-right-16 translate-x-[10%] sm:translate-x-[20%] -translate-y-1/2 font-condiment text-neon text-[24px] sm:text-[36px] lg:text-[48px] mix-blend-exclusion normal-case"
+            >
               Nft collection
-            </span>
+            </motion.span>
           </div>
 
-          {/* Mobile Socials */}
           <div className="flex lg:hidden justify-center gap-4 mt-12 w-full">
-            {[Mail, FaTwitter, FaGithub].map((Icon, idx) => (
+            {socialIcons.map((Icon, idx) => (
               <button key={idx} className="liquid-glass w-[56px] h-[56px] rounded-[1rem] flex items-center justify-center hover:bg-white/10 transition-colors">
                 <Icon size={20} className="text-cream" />
               </button>
@@ -101,7 +136,6 @@ const App = () => {
       {/* SECTION 3: NFT COLLECTION GRID */}
       <section className="w-full bg-background py-24 lg:py-32">
         <div className="w-full max-w-orbis mx-auto px-6 sm:px-12">
-          {/* Header Row */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-10">
             <h2 className="font-grotesk uppercase text-[32px] sm:text-[48px] lg:text-[60px] leading-[1.1]">
               Collection of<br />
@@ -123,7 +157,6 @@ const App = () => {
             </button>
           </div>
 
-          {/* NFT Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
             {[
               { score: "8.7/10", url: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_053923_22c0a6a5-313c-474c-85ff-3b50d25e944a.mp4" },
@@ -143,7 +176,7 @@ const App = () => {
                     <span className="text-[11px] text-cream/70 uppercase tracking-wider">Rarity Score:</span>
                     <span className="text-[16px] font-bold mt-1">{nft.score}</span>
                   </div>
-                  <button className="w-[48px] h-[48px] rounded-full bg-gradient-to-br from-[#b724ff] to-[#7c3aed] flex items-center justify-center shadow-lg shadow-purple-500/50 hover:scale-110 transition-transform">
+                  <button className="w-[48px] h-[48px] rounded-full bg-gradient-to-br from-[#b724ff] to-[#7c3aed] flex items-center justify-center shadow-lg shadow-purple-500/50 hover:scale-110 transition-transform cursor-none">
                     <ChevronRight className="text-white" size={24} />
                   </button>
                 </div>
@@ -155,14 +188,12 @@ const App = () => {
 
       {/* SECTION 4: CTA / FINAL */}
       <section className="relative w-full overflow-hidden bg-background">
-        {/* Native aspect ratio video */}
         <video 
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_055729_72d66327-b59e-4ae9-bb70-de6ccb5ecdb0.mp4" 
           autoPlay loop muted playsInline
           className="w-full h-auto block relative z-0"
         />
 
-        {/* Floating Text Content */}
         <div className="absolute inset-0 z-10 flex items-center justify-end lg:pr-[20%] lg:pl-[15%] px-6">
           <div className="relative">
             <span className="absolute -top-6 sm:-top-8 lg:-top-12 -left-4 sm:-left-8 font-condiment text-neon mix-blend-exclusion text-[17px] sm:text-[34px] lg:text-[68px] normal-case">
@@ -177,14 +208,13 @@ const App = () => {
           </div>
         </div>
 
-        {/* Absolute Social Icons Container */}
         <div className="absolute z-20 left-[8%] bottom-[12%] sm:bottom-[16%] lg:bottom-[20%]">
           <div className="liquid-glass rounded-[0.5rem] sm:rounded-[0.875rem] lg:rounded-[1.25rem] flex flex-col">
-            {[Mail, FaTwitter, FaGithub].map((Icon, idx) => (
+            {socialIcons.map((Icon, idx) => (
               <button 
                 key={idx} 
                 className={`
-                  flex items-center justify-center
+                  flex items-center justify-center cursor-none
                   w-[14vw] sm:w-[14.375rem] md:w-[10.78125rem] lg:w-[16.77rem]
                   h-[14vw] sm:h-[4.5rem] lg:h-[5.5rem]
                   hover:bg-white/10 transition-colors
