@@ -10,11 +10,14 @@ import Magnetic from './Magnetic';
 import ScrambleText from './ScrambleText';
 import TiltCard from './TiltCard';
 // import LiquidVideo from './LiquidVideo';
+import useSecretCode from './useSecretCode';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAudioMuted, setIsAudioMuted] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
+  // Listen for the secret keystroke sequence
+  const { isUnlocked, setIsUnlocked } = useSecretCode('orbis');
 
   // --- G-Force Scroll Physics ---
   const { scrollY } = useScroll();
@@ -184,8 +187,61 @@ const App = () => {
         </motion.div>
       </section>
 
+      {/* --- HIDDEN SYSTEM OVERRIDE TERMINAL --- */}
+      <AnimatePresence>
+        {isUnlocked && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-red-950/95 backdrop-blur-2xl flex flex-col items-center justify-center cursor-default p-6"
+          >
+            {/* Alarm Audio Loop */}
+            <audio src="https://cdn.freesound.org/previews/165/165331_3106198-lq.mp3" autoPlay loop />
+            
+            {/* Grainy Texture Overlay for the Terminal */}
+            <div className="absolute inset-0 bg-noise mix-blend-overlay opacity-40 pointer-events-none" />
+            
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="relative z-10 text-center max-w-2xl"
+            >
+              <div className="font-mono text-neon text-[14px] mb-6 tracking-[0.3em] uppercase animate-pulse">
+                Critical Error: Security Breach Detected
+              </div>
+              
+              <h1 className="font-grotesk text-[12vw] md:text-[120px] leading-none text-white mb-8 select-none">
+                SYSTEM<br/>OVERRIDE
+              </h1>
+              
+              <div className="liquid-glass p-8 rounded-2xl border border-red-500/30 mb-12">
+                <p className="font-mono text-cream/80 text-sm md:text-base leading-relaxed">
+                  Terminal access granted to user: <span className="text-neon">Ansari_S</span><br/>
+                  Firewall status: <span className="text-red-500 underline">DISABLED</span><br/>
+                  Encryption: <span className="line-through opacity-50">AES-256</span> BYPASSED
+                </p>
+              </div>
+              
+              <button 
+                onClick={() => setIsUnlocked(false)}
+                className="font-grotesk uppercase text-[18px] tracking-widest px-10 py-5 bg-white text-red-950 hover:bg-neon hover:scale-105 transition-all duration-300"
+              >
+                Manual System Reboot
+              </button>
+            </motion.div>
+            
+            {/* Subtle Matrix-style decorative text in the background */}
+            <div className="absolute bottom-10 left-10 font-mono text-[10px] text-red-500/20 uppercase vertical-text">
+              ORBIS_ROOT_ACCESS_LOG_2026
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 };
 
 export default App;
+
